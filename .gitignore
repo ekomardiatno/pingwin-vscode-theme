@@ -1,0 +1,7 @@
+.DS_Store
+node_modules/
+*.vsix
+
+# fileicons/icons/*.svg is generated, but it IS committed on purpose: the
+# extension has to work from a plain `git clone` into the extensions folder,
+# with no build step. Regenerate with `npm run icons` and commit the diff.

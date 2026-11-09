@@ -1,0 +1,97 @@
+/*
+ * pingwin-workbench.css — the three pingwin faces, in the VS Code workbench.
+ *
+ * A colour theme extension can repaint every pixel of the workbench and still
+ * not change one letterform: VS Code exposes `editor.fontFamily` and
+ * `terminal.integrated.fontFamily` as settings, but the *UI* font is hardcoded
+ * per platform in workbench.css. There is no setting. So the only way to get
+ * Manrope into the sidebar is to load a stylesheet after workbench.css and
+ * out-specify it — which is what this file does.
+ *
+ * Installed by workbench/apply.sh into code-server's src/browser/pages/, the
+ * same directory the login theme uses, and linked from workbench.html. An
+ * upgrade replaces that tree, so re-run apply.sh afterwards.
+ *
+ * Fonts resolve relatively (./manrope.woff2) because they are installed flat
+ * beside this file. That keeps the theme working under any --abs-proxy-base-path
+ * without rewriting a single URL.
+ */
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("./space_grotesk.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("./manrope.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./jetbrains_mono.woff2") format("woff2");
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root {
+  --pingwin-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --pingwin-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --pingwin-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ── the body voice ───────────────────────────────────────────────────────
+ * Upstream sets the UI font on `.monaco-workbench.mac` and friends, and again
+ * on `.monaco-workbench.mac:lang(ja)` and friends — three classes' worth. The
+ * doubled `.monaco-workbench` here matches that specificity, and because this
+ * file is linked after workbench.css, the tie goes to us. Writing it as a
+ * single class would silently lose for anyone running the editor in Japanese,
+ * Korean or Chinese.
+ *
+ * Everything inside inherits, so this one rule does most of the work; the
+ * blocks below are only for the places upstream names explicitly. */
+.monaco-workbench.monaco-workbench.mac,
+.monaco-workbench.monaco-workbench.windows,
+.monaco-workbench.monaco-workbench.linux {
+  font-family: var(--pingwin-body);
+
+  /* The mono face every widget reaches for: hovers, inline code, the debug
+     REPL, notebook previews. The editor and terminal are *not* covered — they
+     read their own settings. See README for the settings.json pair. */
+  --monaco-monospace-font: var(--pingwin-mono);
+}
+
+/* ── the machine voice ────────────────────────────────────────────────────
+ * Pingwin reserves mono + uppercase + wide tracking for chrome that reports
+ * machine state rather than speaking to you — the panel title bars in
+ * pingwin-web use exactly this treatment. In an editor that is the status bar
+ * and the section headers: labels you read as instruments, not as prose. */
+.monaco-workbench .part.statusbar {
+  font-family: var(--pingwin-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.monaco-workbench .pane-header > .title,
+.monaco-workbench .part > .title > .title-label h2 {
+  font-family: var(--pingwin-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ── the display voice ────────────────────────────────────────────────────
+ * Space Grotesk only ever appears at display size in pingwin, so it only ever
+ * appears here on the welcome page and the empty-editor watermark — the two
+ * surfaces that are a title rather than an interface. */
+.monaco-workbench .welcomePageContainer h1,
+.monaco-workbench .welcomePageContainer h2,
+.monaco-workbench .editor-group-watermark > .letterpress {
+  font-family: var(--pingwin-display);
+  letter-spacing: -0.01em;
+}

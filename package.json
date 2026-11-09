@@ -1,0 +1,40 @@
+{
+  "name": "pingwin-vscode-theme",
+  "displayName": "Pingwin",
+  "description": "Dark editor theme and file icons in the pingwin design language — one warm amber accent on cold ink, with green and red kept for status.",
+  "version": "1.0.0",
+  "publisher": "ekomardiatno",
+  "license": "MIT",
+  "private": true,
+  "author": "Eko Mardiatno (https://ekomardiatno.my.id)",
+  "homepage": "https://github.com/ekomardiatno/pingwin-vscode-theme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ekomardiatno/pingwin-vscode-theme.git"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Themes"],
+  "keywords": ["theme", "dark", "icon theme", "amber", "pingwin"],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Pingwin",
+        "uiTheme": "vs-dark",
+        "path": "./themes/pingwin-color-theme.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "pingwin",
+        "label": "Pingwin",
+        "path": "./fileicons/pingwin-icon-theme.json"
+      }
+    ]
+  },
+  "scripts": {
+    "icons": "node tools/build-icons.mjs",
+    "sheet": "node tools/build-icons.mjs && node tools/contact-sheet.mjs"
+  }
+}
